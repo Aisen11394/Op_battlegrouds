@@ -1,140 +1,70 @@
--- // Initialising the UI
-local Venyx = loadstring(game:HttpGet("https://raw.githubusercontent.com/Stefanuk12/Venyx-UI-Library/main/source2.lua"))()
-local UI = Venyx.new({
-    title = "Venyx"
-})
+--Made by weirdman1221
+local DrRayLibrary = loadstring(game:HttpGet("https://raw.githubusercontent.com/AZYsGithub/DrRay-UI-Library/main/DrRay.lua"))()
 
--- // Themes
-local Themes = {
-    Background = Color3.fromRGB(24, 24, 24),
-    Glow = Color3.fromRGB(0, 0, 0),
-    Accent = Color3.fromRGB(10, 10, 10),
-    LightContrast = Color3.fromRGB(20, 20, 20),
-    DarkContrast = Color3.fromRGB(14, 14, 14),  
-    TextColor = Color3.fromRGB(255, 255, 255)
-}
+-- Create a new window and set its title and theme
+local window = DrRayLibrary:Load("Op Battlegrounds", "Default")
 
--- // Test Page
-local Test = UI:addPage({
-    title = "Test",
-    icon = 5012544693
-})
+-- Create the first tab with an image ID
+local tab1 = DrRayLibrary.newTab("Tab 1", "ImageIdHere")
 
--- // Sections for Test Page
-local SectionA = Test:addSection({
-    title = "Section A"
-})
-local SectionB = Test:addSection({
-    title = "Section B"
-})
-
--- // Section A UI Elements
-SectionA:addToggle({
-    title = "Toggle",
-    callback = function(value)
-        print("Toggled", value)
+-- Add elements to the first tab
+tab1.newLabel("Main")
+tab1.newButton("Button", "Prints Hello!", function()
+    print('Hello!')
+end)
+tab1.newToggle("No CD", "On/Off C/D", true, function(toggleState)
+    if toggleState then
+        Game.Players.LocalPlayer.NoCD.Value=true
+        Game.Players.LocalPlayer.NoDashCD.Value=true
+    else
+        Game.Players.LocalPlayer.NoDashCD.Value=false
+        Game.Players.LocalPlayer.NoCD.Value=false
     end
-})
+end)
 
-SectionA:addButton({
-    title = "Button",
-    callback = function()
-        print("Clicked")
+tab1.newToggle("EarlyAccess", "On/Off EarlyAccess", true, function(toggleState)
+    if toggleState then
+        Game.Players.LocalPlayer.EarlyAccess.Value=true
+    else
+        Game.Players.LocalPlayer.EarlyAccess.Value=false
     end
-})
+end)
 
-SectionA:addTextbox({
-    title = "Notification",
-    default = "Default",
-    callback = function(value, focusLost)
-        print("Input", value)
-
-        if (focusLost) then
-            UI:Notify({
-                title = "Title",
-                text = value
-            })
-        end
+tab1.newToggle("NoStun", "On/Off Stun", true, function(toggleState)
+    if toggleState then
+        Game.Players.LocalPlayer.NoStun.Value=true
+    else
+        Game.Players.LocalPlayer.NoStun.Value=false
     end
-})
+end)
 
--- // Section B UI Elements
-SectionB:addKeybind({
-    title = "Toggle Keybind",
-    key = Enum.KeyCode.One,
-    callback = function()
-        print("Activated Keybind")
-        UI:toggle()
-    end,
-    changedCallback = function(key)
-        print("Changed Keybind", key)
+tab1.newToggle("InfAwaken", "On/Off Awaken", true, function(toggleState)
+    if toggleState then
+        Game.Players.LocalPlayer.infAwaken.Value=true
+    else
+        Game.Players.LocalPlayer.infAwaken.Value=false
     end
-})
+end)
 
-SectionB:addColorPicker({
-    title = "ColorPicker",
-    default = Color3.fromRGB(50, 50, 50)
-})
+tab1.newInput("Input", "Prints your input.", function(text)
+    print("Entered text in Tab 1: " .. text)
+end)
 
-SectionB:addColorPicker({
-    title = "ColorPicker2"
-})
+-- Create the second tab with a different image ID
+local tab2 = DrRayLibrary.newTab("Tab 2", "ImageIdLogoHere")
 
-SectionB:addSlider({
-    title = "Slider",
-    default = 0,
-    min = -100,
-    max = 100,
-    callback = function(value)
-        print("Dragged", value)
+-- Add elements to the second tab
+tab2.newLabel("Hello, this is Tab 2.")
+tab2.newButton("Button", "Prints Hello!", function()
+    print('Hello!')
+end)
+tab2.newToggle("Toggle", "Toggle! (prints the state)", true, function(toggleState)
+    if toggleState then
+        print("On")
+    else
+        print("Off")
     end
-})
-
-local dropdownContent = {"Hello", "World", "Hello World", "Word", 1, 2, 3} -- // To save me from keep on doing this
-SectionB:addDropdown({
-    title = "Dropdown",
-    list = dropdownContent
-})
-
-SectionB:addDropdown({
-    title = "Dropdown",
-    list = dropdownContent,
-    callback = function(text)
-        print("Selected", text)
-    end
-})
-
-SectionB:addButton({
-    title = "Button"
-})
-
--- // Color Theme Customisation Page
-local Theme = UI:addPage({
-    title = "Theme",
-    icon = 5012544693
-})
-
--- // Section for the Color Theme Customisation Page
-local Colors = Theme:addSection({
-    title = "Colors"
-})
-
--- // Adding a color picker for each type of theme customisable
-for theme, color in pairs(Themes) do
-    Colors:addColorPicker({
-        title = theme,
-        default = color,
-        callback = function(color3)
-            UI:setTheme({
-                theme = theme, 
-                color3 = color3
-            })
-        end
-    })
-end
-
--- // Load
-UI:SelectPage({
-    page = UI.pages[1], 
-    toggle = true
-})
+end)
+tab2.newDropdown("Dropdown", "Select one of these options!", {"water", "dog", "air", "bb", "airplane", "wohhho", "yeay", "delete"}, function(selectedOption)
+    print(selectedOption)
+end)
